@@ -16,25 +16,27 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - name: generate trophy.svg
-        uses: Erik-Donath/github-profile-trophy@feature/generate-svg
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate trophy.svg
+        uses: ryo-ma/github-profile-trophy@master
+        with:
+          user: ${{ github.repository_owner }}
+          theme: dracula
+          row: 1
+          column: 7
+          margin-w: 10
+          margin-h: 8
+          no-bg: true
+          no-frame: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_TOKEN1: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          username: ${{ github.repository_owner }}
-          file: dist/trophy.svg
-          theme: dracula
-          max-rows: 1
-          margin-width: 10
-          margin-height: 8
-          no-background: true
-          no-frame: true
 
-      - name: push trophy.svg to the output branch
-        uses: crazy-max/ghaction-github-pages@v3.1.0
+      - name: Push trophy.svg to output branch
+        uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: trophy-output
-          build_dir: dist
+          build_dir: .
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
